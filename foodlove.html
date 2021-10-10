@@ -66,7 +66,7 @@ $('#city').on('change', function () {
 
 function getStore() {
     
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    var proxyUrl = "https://cors-anywhere.herokuapp.com/";
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
     var url = "${proxyUrl}https://foodlover.tw/goodfood/query/shop/v2?city=" + city + "&area=" + area;
@@ -89,6 +89,7 @@ function getStore() {
           }
       })
       */
+
 
       fetch(url)
         .then(function(response) {
