@@ -91,7 +91,7 @@ function getStore() {
 
       fetch(url, { mode: "no-cors" })
         .then(function(response) {
-            return response.text();
+            return response.json();
         })
         .then(function(myJson) {
             alert(myJson);
