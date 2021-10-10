@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+
+    <style>
+        body {
+        padding-top: 10px;
+        padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form role="form">
+        <div class="form-group row">    
+            <div class="col-lg-2">
+                <label>縣市</label>
+                <select class="selectpicker form-control" id="city" data-container="body" data-live-search="true" title="" data-hide-disabled="true">
+                    <option value="臺北市">臺北市</option>
+                    <option value="新北市">新北市</option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <label>行政區</label>
+                <select class="selectpicker form-control" id="area" data-container="body" data-live-search="true" title="" data-hide-disabled="true">
+                    <option value="內湖區">內湖區</option>
+                    <option value="汐止區">汐止區</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2"> 
+                <input type="text" class="form-control" name="keyword" placeholder="搜尋字串">
+            </div>
+            <div class="col-lg-2">    
+                <button type="submit" class="btn btn-primary">搜尋</button>
+            </div>
+        </div>
+    </form>
+    
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap-select.js"></script>
+
+<script>
+function createOptions(number) {
+  var options = [], _options;
+
+  for (var i = 0; i < number; i++) {
+    var option = '<option value="' + i + '">Option ' + i + '</option>';
+    options.push(option);
+  }
+
+  _options = options.join('');
+  
+  $('#number')[0].innerHTML = _options;
+  $('#number-multiple')[0].innerHTML = _options;
+
+  $('#number2')[0].innerHTML = _options;
+  $('#number2-multiple')[0].innerHTML = _options;
+}
+
+var mySelect = $('#first-disabled2');
+
+
+$('#special').on('click', function () {
+  mySelect.find('option:selected').prop('disabled', true);
+  mySelect.selectpicker('refresh');
+});
+
+$('#special2').on('click', function () {
+  mySelect.find('option:disabled').prop('disabled', false);
+  mySelect.selectpicker('refresh');
+});
+
+$('#basic2').selectpicker({
+  liveSearch: true,
+  maxOptions: 1
+});
+</script>
+</body>
+
+</html>
