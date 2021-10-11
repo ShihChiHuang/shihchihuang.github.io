@@ -69,7 +69,7 @@ function getStore() {
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
     var url = "https://foodlover.tw/goodfood/query/shop/v2?city=" + city + "&area=" + area;
-    /*
+    
     $.ajax({
           url: url,
           type: 'GET',
@@ -87,8 +87,8 @@ function getStore() {
               alert(data);
           }
       })
-      */
-
+     
+/*
       fetch(url, { mode: "no-cors" })
         .then(function(response) {
             return response.json();
@@ -98,7 +98,7 @@ function getStore() {
             //console.log(myJson);
         });
 
-/*
+
         var result = fetchJsonp(url, {
       jsonpCallbackFunction: 'search_results',
       timeout: 3000
