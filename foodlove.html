@@ -5,17 +5,16 @@
     <title></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.css">
-    <script src="js/fetch-jsonp.js"></script>
     <style>
         body {
         padding-top: 10px;
         padding-left: 10px;
         padding-right: 10px;
         }
+
     </style>
 </head>
 
@@ -46,13 +45,13 @@
                 <button class="btn btn-primary" onclick="javascript:getStore();">搜尋</button>
             </div>
         </div>
-    
+
 <div id="storelist">
 
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="js/bootstrap-select.js"></script>
 
 <script>
@@ -68,12 +67,13 @@ $('#city').on('change', function () {
 
 function getStore() {
     
+    $('#storelist').find('p').remove().end();
     var cors = 'https://cors-anywhere.herokuapp.com/';
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
     var url = cors + "https://foodlover.tw/goodfood/query/shop/v2?category=餐飲&city=" + city + "&area=" + area;
 
-    
+    $('#storelist').append('<button class="btn btn-primary" type="button" disabled>  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Loading... </button>');
 
     $.ajax({
           url: url,
@@ -87,18 +87,19 @@ function getStore() {
           beforeSend: function (xhr) {
             xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
           },
-          success: function (data){
+          success: function (data){    
+            $('#storelist').find('button').remove().end();         
             showStore(data);
           },
           error: function(xhr, status, error) {
+            $('#storelist').find('button').remove().end(); 
                 console.log(status + '; ' + error);
           }
     })
 }
 
  function showStore(data) {
-     
-    $('#storelist').find('p').remove().end();
+    
     data.forEach(function(item) {
         var shopName = item["shop"];
         var addr = item["market_address"];
