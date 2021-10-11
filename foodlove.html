@@ -21,10 +21,20 @@
 <body>
 
    
-        <div class="form-group row">    
+        <div class="form-group row">  
+            <div class="col-sm-3">
+                <label>類別</label>
+                <select class="selectpicker form-control" id="category" data-container="body" data-live-search="true" title="" data-hide-disabled="true">                    
+                    <option value="餐飲">餐飲</option>
+                    <option value="夜市/市場攤販">夜市/市場攤販</option>
+                    <option value="糕餅">糕餅</option>
+                    <option value="觀光工廠">觀光工廠</option>
+                    <option value="百貨美食街">百貨美食街</option>
+                </select>
+            </div>  
             <div class="col-sm-3">
                 <label>縣市</label>
-                <select class="selectpicker form-control" id="city" data-container="body" data-live-search="true" title="請選擇縣市" data-hide-disabled="true">
+                <select class="selectpicker form-control" id="city" data-container="body" data-live-search="true" title="" data-hide-disabled="true">
                     
                     <option value="臺北市">臺北市</option>
                     <option value="新北市">新北市</option>
@@ -32,7 +42,7 @@
             </div>
             <div class="col-sm-3">
                 <label>行政區</label>
-                <select class="selectpicker form-control" id="area" data-container="body" data-live-search="true" title="請選擇地區" data-hide-disabled="true">
+                <select class="selectpicker form-control" id="area" data-container="body" data-live-search="true" title="" data-hide-disabled="true">
       
                 </select>
             </div>
@@ -57,21 +67,31 @@
 <script>
 
 $('#city').on('change', function () {
+    showArea();
+});
+
+
+function showArea() {
     $('#area').find('option').remove().end();
     var sitem = $('#city').find('option:selected').val();
     var areas = cityObject[sitem];
-    areas.forEach(a => $('#area').append('<option value="'+a+'">'+a+'</option>') );
+    areas.forEach(function(item) {        
+        $('#area').append('<option value="'+item+'">'+item+'</option>') 
+    });
+    
+    $("#area").selectpicker("refresh");    
+    $("#area").val($("#area option:first").val());
     $("#area").selectpicker("refresh");
-});
-
+}
 
 function getStore() {
     
     $('#storelist').find('p').remove().end();
     var cors = 'https://api.allorigins.win/get?url=';
+    var category = $('#category').find('option:selected').val();
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
-    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=餐飲&city=" + city + "&area=" + area);
+    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=" + category + "&city=" + city + "&area=" + area);
 
     $('#storelist').append('<button class="btn btn-primary" type="button" disabled>  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Loading... </button>');
 
@@ -149,6 +169,8 @@ const cityObject = {
 				"金門縣": ["烈嶼鄉", "金城鎮", "金寧鄉", "金沙鎮", "金湖鎮"],
 				"連江縣": ["北竿鄉", "南竿鄉", "東引鄉"]
 			}
+
+showArea();
 </script>
 </body>
 
