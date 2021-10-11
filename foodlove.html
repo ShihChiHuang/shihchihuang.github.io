@@ -74,18 +74,8 @@ function getStore() {
           url: url,
           type: 'GET',
           dataType: 'jsonp',
-          cors: true ,
           contentType:'application/json',
-          secure: true,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-          },
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-          },
-          success: function (data){
-              alert(data);
-          }
+          jsonpCallback: "localJsonpCallback"
       })
      
 /*
@@ -112,6 +102,15 @@ function getStore() {
       console.log('parsing failed', ex)
     })
 */
+}
+
+function localJsonpCallback(json) {
+    alert("test");
+  if (!json.Error) {
+    alert("callback");
+  } else {
+    alert(json.Message);
+  }
 }
 
 const cityObject = {
