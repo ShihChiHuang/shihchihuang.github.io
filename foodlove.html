@@ -70,24 +70,22 @@ function getStore() {
     var area = $('#area').find('option:selected').val();
     var url = "https://foodlover.tw/goodfood/query/shop/v2?city=" + city + "&area=" + area;
 
-    var options = {
-            city: city,
-            area: area,
-            format: "json",
-            crossDomain: true
-        };
-    var data = $.getJSON(url,options);
-    alert(data);
-  /*  
     $.ajax({
           url: url,
           type: 'GET',
-          dataType: 'jsonp',
+          dataType: 'json',
+          crossDomain: true,
           contentType:'application/json',
-          jsonpCallback: "localJsonpCallback"
+          success: function(data){
+                console.log('callback success');
+                console.log(data);
+          },
+          error: function(xhr, status, error) {
+                console.log(status + '; ' + error);
+          }
       })
      
-
+/*
       fetch(url, { mode: "no-cors" })
         .then(function(response) {
             return response.json();
