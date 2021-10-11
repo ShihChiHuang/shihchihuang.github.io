@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.0.6/fetch-jsonp.min.js"></script>
+    <script src="js/fetch-jsonp.js"></script>
     <style>
         body {
         padding-top: 10px;
@@ -88,7 +88,7 @@ function getStore() {
           }
       })
       */
-/*
+
       fetch(url, { mode: "no-cors" })
         .then(function(response) {
             return response.json();
@@ -97,11 +97,21 @@ function getStore() {
             alert(myJson);
             //console.log(myJson);
         });
-*/
-        fetchJsonp(url)
-            .then(res => res.json())
-            .then(json => console.log(json));
 
+/*
+        var result = fetchJsonp(url, {
+      jsonpCallbackFunction: 'search_results',
+      timeout: 3000
+    })
+    result.then(function (response) {
+      console.log(response)
+      return response.json()
+    }).then(function (json) {
+      console.log('parsed json', json)
+    }).catch(function (ex) {
+      console.log('parsing failed', ex)
+    })
+*/
 }
 
 const cityObject = {
