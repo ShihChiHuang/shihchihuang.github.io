@@ -66,6 +66,44 @@
 
 <script>
 
+
+function getCurrentCityArea() {
+    
+    var longitude;
+    var latitude;
+    navigator.geolocation.getCurrentPosition(function(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+
+        var cors = 'https://api.allorigins.win/get?url=';
+        var category = $('#category').find('option:selected').val();
+        var city = $('#city').find('option:selected').val();
+        var area = $('#area').find('option:selected').val();
+        var url = cors + encodeURIComponent("https://api.nlsc.gov.tw/other/TownVillagePointQuery/" + longitude + "/" + latitude);
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            contentType:'text/xml',
+            success: function (data){ 
+                var xml = data.contents;
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(xml,"text/xml");
+                var cityName = xmlDoc.getElementsByTagName("ctyName")[0].childNodes[0].nodeValue;
+                var areaName = xmlDoc.getElementsByTagName("townName")[0].childNodes[0].nodeValue;
+                $("#city").val(cityName);                
+                //$("#city").selectpicker("refresh");
+                $("#city").trigger('change');
+                $("#area").val(areaName);
+                $("#area").selectpicker("refresh");
+            },
+            error: function(xhr, status, error) {
+                alert("Error:" + status + '; ' + error);
+            }
+        })
+    });    
+}
+
 $('#city').on('change', function () {
     showArea();
 });
@@ -171,6 +209,7 @@ const cityObject = {
 			}
 
 showArea();
+getCurrentCityArea();
 </script>
 </body>
 
