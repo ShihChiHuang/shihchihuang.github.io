@@ -182,9 +182,13 @@ function getStore() {
         var addr = item["market_address"];
         addr = addr.replace(' ','');
         addr = addr.replace('　','');
+        var googleAddr = addr;
+        if (addr.indexOf("號")>0) {
+            googleAddr = addr.substring(0,addr.indexOf("號")+1);
+        } 
         var paylist = item["pay_list"];
         var keyword = $("#keyword").val();
-        var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + addr + '">' + addr + '</a> / ' + paylist + '</p>';
+        var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + googleAddr + '">' + addr + '</a> / ' + paylist + '</p>';
         if (keyword != "") {
             if (shopName.includes(keyword) || addr.includes(keyword)) {
                 $('#storelist').append(newElement);
