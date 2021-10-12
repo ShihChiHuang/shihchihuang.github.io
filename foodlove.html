@@ -177,6 +177,8 @@ function getStore() {
     data.forEach(function(item) {
         var shopName = item["shop"];
         var addr = item["market_address"];
+        addr = addr.replace(' ','');
+        addr = addr.replace('　','');
         var paylist = item["pay_list"];
         var keyword = $("#keyword").val();
         var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + addr + '">' + addr + '</a> / ' + paylist + '</p>';
