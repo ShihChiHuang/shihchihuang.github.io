@@ -138,8 +138,9 @@ function showArea() {
     $('#area').find('option').remove().end();
     var sitem = $('#city').find('option:selected').val();
     var areas = cityObject[sitem];
+    $('#area').append('<option value="">所有區域</option>') 
     areas.forEach(function(item) {        
-        $('#area').append('<option value="'+item+'">'+item+'</option>') 
+        $('#area').append('<option value="'+item+'">'+item+'</option>');
     });
     
     $("#area").selectpicker("refresh");    
