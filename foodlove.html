@@ -177,6 +177,10 @@ function getStore() {
 
  function showStore(data) {
 
+    var keyword = $("#keyword").val();
+    if (keyword != "") {
+        keyword = ToDBC(keyword);
+    }
     data.forEach(function(item) {
         var shopName = item["shop"];
         var addr = item["market_address"];
@@ -185,12 +189,11 @@ function getStore() {
         var googleAddr = addr;
         if (addr.indexOf("號")>0) {
             googleAddr = addr.substring(0,addr.indexOf("號")+1);
-        } 
-        var paylist = item["pay_list"];
-        var keyword = $("#keyword").val();
+        }         
+        var paylist = item["pay_list"];        
         var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + googleAddr + '">' + addr + '</a> / ' + paylist + '</p>';
         if (keyword != "") {
-            if (shopName.includes(keyword) || addr.includes(keyword)) {
+            if (shopName.includes(keyword) || googleAddr.includes(keyword)) {
                 $('#storelist').append(newElement);
             }
         } else {
@@ -198,6 +201,18 @@ function getStore() {
         }
     });
  }
+
+ function ToDBC(txtstring) { 
+     var tmp = ""; 
+     for (var i = 0; i < txtstring.length; i++) { 
+         if (isNaN(txtstring.charAt(i))) {
+            tmp += String.fromCharCode(txtstring.charCodeAt(i));
+         } else { 
+            tmp += String.fromCharCode(txtstring.charCodeAt(i) + 65248);            
+         }        
+    } 
+    return tmp; 
+}
 
 
 const cityObject = {
