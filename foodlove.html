@@ -68,9 +68,24 @@
                 <select class="selectpicker form-control" id="area" data-container="body" data-live-search="true" title="" data-hide-disabled="true">
       
                 </select>
-            </div>
+            </div>            
         </div>
         <div class="form-group row">
+            <div class="col-sm-5">
+                支付方式                
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="ck1" value="信用卡" checked>
+                    <label class="form-check-label" for="inlineCheckbox1">信用卡</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="ck2" value="行動支付" checked>
+                    <label class="form-check-label" for="inlineCheckbox2">行動支付</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="ck3" value="電子票證" checked>
+                    <label class="form-check-label" for="inlineCheckbox3">電子票證</label>
+                  </div>
+            </div>
             <div class="col-sm-3"> 
                 <input type="text" class="form-control" id="keyword" placeholder="搜尋店名,路名...">
             </div>
@@ -175,7 +190,17 @@ function getStore() {
     var category = $('#category').find('option:selected').val();
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
-    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=" + category + "&city=" + city + "&area=" + area + "&pay_tool=信用卡&pay_tool=行動支付&pay_tool=電子票證");
+    var paytool = "";
+    if ($('#ck1').is(":checked")) {
+        paytool += "&pay_tool=信用卡";
+    }
+    if ($('#ck2').is(":checked")) {
+        paytool += "&pay_tool=行動支付";
+    }
+    if ($('#ck3').is(":checked")) {
+        paytool += "&pay_tool=電子票證";
+    }
+    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=" + category + "&city=" + city + "&area=" + area + paytool);
 
     $('#storelist').append('<button class="btn btn-success" type="button" disabled>  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  搜尋中... </button>');
 
