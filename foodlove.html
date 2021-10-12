@@ -96,6 +96,28 @@
             </div>
         </div>
 
+        <div class="form-group row" id="paytool2">
+            <div class="col-sm-3">
+                <select class="selectpicker form-control" id="phonepay" data-container="body" title="請勾選支付種類" data-live-search="true" data-hide-disabled="true" multiple>                    
+                    <option value="台灣pay">台灣pay</option>
+                    <option value="LINE Pay Money">LINE Pay Money</option>
+                    <option value="街口">街口</option>
+                    <option value="icash pay">icash pay</option>
+                    <option value="歐付寶">歐付寶</option>
+                    <option value="橘子支付">橘子支付</option>
+                    <option value="Pi 拍錢包">Pi 拍錢包</option>
+                    <option value="悠遊卡">悠遊卡</option>
+                    <option value="iPASS 一卡通">iPASS 一卡通</option>
+                    <option value="icash pay">icash pay</option>
+                    <option value="悠遊付">悠遊付</option>
+                    <option value="愛金卡">愛金卡</option>
+                </select>
+            </div> 
+            <div class="col-sm-3"> 
+                <button class="btn btn-warning" onclick="javascript:filterResult();">過濾一下</button>
+            </div>
+        </div> 
+
         <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -125,11 +147,13 @@
 
 <script>
 
+var searchResult = new Array();
 
 function getCurrentCityArea() {
     
     var longitude;
     var latitude;
+    
     navigator.geolocation.getCurrentPosition(function(position) {
 
         $('#storelist').append('<button class="btn btn-warning" type="button" disabled>  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  定位中... </button>');
@@ -166,8 +190,17 @@ function getCurrentCityArea() {
     });    
 }
 
-$('#city').on('change', function () {
-    showArea();
+$(document).ready(function() {
+    $('#paytool2').hide();
+    $('#city').on('change', function () {
+        showArea();
+    });
+
+    $('#ck2').change(function() {        
+        if (!$('#ck2').is(":checked")) {
+            $('#paytool2').hide();
+        }
+    });
 });
 
 
@@ -187,6 +220,7 @@ function showArea() {
 
 function getStore() {
     
+    $('#paytool2').hide();
     $('#storelist').find('p').remove().end();
     var cors = 'https://api.allorigins.win/get?url=';
     var category = $('#category').find('option:selected').val();
@@ -223,7 +257,34 @@ function getStore() {
     })
 }
 
- function showStore(data) {
+function filterResult() {
+    $('#storelist').find('p').remove().end();
+    var paytool2Array = $('#phonepay').val(); 
+    searchResult.forEach(function(item) {
+        var shopName = item["shop"];
+        var addr = item["market_address"];
+        addr = addr.replace(' ','');
+        addr = addr.replace('　','');
+        var googleAddr = addr;
+        if (addr.indexOf("號")>0) {
+            googleAddr = addr.substring(0,addr.indexOf("號")+1);
+        }         
+        var paylist = item["pay_list"];        
+        var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + googleAddr + '">' + addr + '</a> / ' + paylist + '</p>';
+        if ((paytool2Array != null) && (paytool2Array.length > 0)) {
+            paytool2Array.forEach(function(pay) {
+                if (paylist.includes(pay)) {
+                    $('#storelist').append(newElement);
+                }
+            });
+        } else {
+            $('#storelist').append(newElement);
+        }
+    });
+}
+
+function showStore(data) {
+    searchResult = new Array();
     var keyword = $("#keyword").val();
     if (keyword != "") {
         keyword = ToDBC(keyword);
@@ -244,18 +305,24 @@ function getStore() {
         if (keyword != "") {
             if (shopName.includes(keyword) || googleAddr.includes(keyword)) {
                 $('#storelist').append(newElement);
+                searchResult.push(item);
             }
         } else {
             $('#storelist').append(newElement);
+            searchResult.push(item);
         }
     });
 
     if (count == 1000) {
         $('#alertModal').modal('show');
     }
- }
 
- function ToDBC(txtstring) { 
+    if (count > 0) {
+        $('#paytool2').show();
+    } 
+}
+
+function ToDBC(txtstring) { 
      var tmp = ""; 
      for (var i = 0; i < txtstring.length; i++) { 
          if (isNaN(txtstring.charAt(i))) {
