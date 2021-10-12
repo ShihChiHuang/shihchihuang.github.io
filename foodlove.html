@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>雙北好食店家查詢</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -132,7 +132,7 @@ function getStore() {
     var category = $('#category').find('option:selected').val();
     var city = $('#city').find('option:selected').val();
     var area = $('#area').find('option:selected').val();
-    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=" + category + "&city=" + city + "&area=" + area);
+    var url = cors + encodeURIComponent("https://foodlover.tw/goodfood/query/shop/v2?category=" + category + "&city=" + city + "&area=" + area + "&pay_tool=信用卡&pay_tool=行動支付&pay_tool=電子票證");
 
     $('#storelist').append('<button class="btn btn-success" type="button" disabled>  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  搜尋中... </button>');
 
@@ -158,8 +158,9 @@ function getStore() {
     data.forEach(function(item) {
         var shopName = item["shop"];
         var addr = item["market_address"];
+        var paylist = item["pay_list"];
         var keyword = $("#keyword").val();
-        var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + addr + '">' + addr + '</a></p>';
+        var newElement = '<p>'+ shopName + ' / <a target="_blank" href="https://www.google.com.tw/maps/place/' + addr + '">' + addr + '</a> / ' + paylist + '</p>';
         if (keyword != "") {
             if (shopName.includes(keyword) || addr.includes(keyword)) {
                 $('#storelist').append(newElement);
